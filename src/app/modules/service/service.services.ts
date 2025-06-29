@@ -3,6 +3,7 @@ import { Doctor } from '../doctor/doctor.model';
 import { Service } from './service.model';
 import { TService } from './service.type';
 import AppError from '../../errors/AppError';
+import { Availability } from '../availability/availability.mode';
 
 // Create Service
 const createService = async (payload: TService, doctor: string) => {
@@ -90,7 +91,7 @@ const deleteService = async (id: string, doctorId: string) => {
     session.endSession();
 
     return result;
-  } catch (error) {
+  } catch {
     await session.abortTransaction();
     session.endSession();
     throw new AppError(500, 'Something went wrong while deleting service');

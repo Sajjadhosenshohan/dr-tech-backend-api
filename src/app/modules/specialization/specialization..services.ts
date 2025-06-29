@@ -4,14 +4,13 @@ import { TSpecialization } from './specialization.type';
 
 // Specialization Save to DB
 const specializationSaveToDB = async (payload: TSpecialization) => {
-  // Check if Specialization already exists
+
   const isSpecializationExist = await Specialization.findOne({
     name: payload.name,
   });
   if (isSpecializationExist) {
     throw new AppError(400, 'Specialization already exists');
   }
-  // Create Specialization
   const result = await Specialization.create(payload);
   return result;
 };

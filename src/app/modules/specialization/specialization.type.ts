@@ -1,3 +1,3 @@
 export type TSpecialization = {
-  name: String;
+  name: string;
 };

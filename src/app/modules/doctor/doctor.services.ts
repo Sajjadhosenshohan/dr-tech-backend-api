@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import mongoose from 'mongoose';
 import config from '../../config';
@@ -7,6 +8,9 @@ import { Doctor } from './doctor.model';
 import { User } from '../user/user.model';
 import { Hospital } from '../hospital/hospital.model';
 import { Specialization } from '../specialization/specialization.model';
+import { Appointment } from '../appointment/appointment.model';
+import { Service } from '../service/service.model';
+import { Availability } from '../availability/availability.mode';
 
 const addDoctorToSystem = async (info: any) => {
   const { phone, specialization, hospitalName, name, email, password } = info;
@@ -78,7 +82,6 @@ const fetchAllDoctors = async (query: Record<string, unknown>) => {
       matchStage[key] = value;
     }
   }
-
   const page = Number(query.page) || 1;
   const limit = Number(query.limit) || 10;
   const skip = (page - 1) * limit;
@@ -180,55 +183,55 @@ const fetchDoctorAppointments = async (
   userId: string,
   status?: 'pending' | 'accepted' | 'cancelled' | 'completed',
 ) => {
-  // const doctor = await Doctor.findOne({ userId });
-  // if (!doctor) throw new AppError(404, 'Doctor not found');
+  const doctor = await Doctor.findOne({ userId });
+  if (!doctor) throw new AppError(404, 'Doctor not found');
 
-  // const filter: any = { doctorId: doctor._id };
-  // if (status) filter.status = status;
+  const filter: any = { doctorId: doctor._id };
+  if (status) filter.status = status;
 
-  // const appointments = await Appointment.find(filter)
-  //   .populate({
-  //     path: 'patientId',
-  //     model: 'User',
-  //     select: 'name email',
-  //   })
-  //   .populate({
-  //     path: 'serviceId',
-  //     model: 'Service',
-  //     select: 'title',
-  //   })
-  //   .populate({
-  //     path: 'doctorId',
-  //     model: 'Doctor',
-  //     select: 'phone',
-  //     populate: {
-  //       path: 'userId',
-  //       model: 'User',
-  //       select: 'name email',
-  //     },
-  //   });
+  const appointments = await Appointment.find(filter)
+    .populate({
+      path: 'patientId',
+      model: 'User',
+      select: 'name email',
+    })
+    .populate({
+      path: 'serviceId',
+      model: 'Service',
+      select: 'title',
+    })
+    .populate({
+      path: 'doctorId',
+      model: 'Doctor',
+      select: 'phone',
+      populate: {
+        path: 'userId',
+        model: 'User',
+        select: 'name email',
+      },
+    });
 
-  // return appointments;
+  return appointments;
 };
 
-const viewDoctorProfile = async (userId: string) => {
-  // const doctor = await Doctor.findOne({ userId })
-  //   .select('_id phone userId specialization hospitalName')
-  //   .populate('userId', '_id name email role')
-  //   .populate('specialization', '_id name')
-  //   .populate('hospitalName', '_id name floor')
-  //   .lean();
+const viewDoctorProfile = async (id: string) => {
+  const doctor = await Doctor.findOne({ _id: id })
+    .select('_id phone userId specialization hospitalName')
+    .populate('userId', '_id name email role')
+    .populate('specialization', '_id name')
+    .populate('hospitalName', '_id name floor')
+    .lean();
 
-  // if (!doctor) throw new AppError(404, 'Doctor profile not found');
+  if (!doctor) throw new AppError(404, 'Doctor profile not found');
 
-  // const services = await Service.find({ doctor: doctor._id });
-  // const availabilities = await Availability.find({ doctor: doctor._id });
+  const services = await Service.find({ doctor: doctor._id });
+  const availabilities = await Availability.find({ doctor: doctor._id });
 
-  // return {
-  //   doctor,
-  //   services,
-  //   availabilities,
-  // };
+  return {
+    doctor,
+    services,
+    availabilities,
+  };
 };
 
 export const DoctorServices = {

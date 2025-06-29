@@ -1,14 +1,9 @@
-import config from '../../config';
+
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { SpecializationServices } from './specialization..services';
 
-/**
- * @description Create Specialization Controllers
- * @Method POST
- * @param ''
- * @returns  Data
- */
+
 const createSpecialization = catchAsync(async (req, res) => {
   const result = await SpecializationServices.specializationSaveToDB(req.body);
 
@@ -20,12 +15,7 @@ const createSpecialization = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * @description Get All Specialization Controllers
- * @Method GET
- * @param ''
- * @returns  Data
- */
+
 const getAllSpecialization = catchAsync(async (req, res) => {
   const result = await SpecializationServices.getAllSpecialization();
 
@@ -37,12 +27,7 @@ const getAllSpecialization = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * @description Get Single Specialization Controllers
- * @Method GET
- * @param ''
- * @returns  Data
- */
+
 const getSingleSpecialization = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await SpecializationServices.getSingleSpecialization(id);

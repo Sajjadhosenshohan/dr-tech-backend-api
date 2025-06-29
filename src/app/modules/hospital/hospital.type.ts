@@ -1,4 +1,4 @@
 export type THospital = {
-  name: String;
-  floor: String;
+  name: string;
+  floor: string;
 };

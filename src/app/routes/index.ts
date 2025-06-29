@@ -3,6 +3,7 @@ import { AuthRoutes } from '../modules/auth/auth.routes';
 import { SpecializationRoutes } from '../modules/specialization/specialization.routes';
 import { HospitalRoutes } from '../modules/hospital/hospital.routes';
 import { DoctorRoutes } from '../modules/doctor/doctor.routes';
+import { AppointmentRoutes } from '../modules/appointment/appointment.routes';
 
 const router = Router();
 
@@ -12,7 +13,7 @@ const moduleRoutes = [
     route: AuthRoutes,
   },
   {
-    path: '/doctor',
+    path: '/doctors',
     route: DoctorRoutes,
   },
   // {
@@ -27,10 +28,10 @@ const moduleRoutes = [
     path: '/specialization',
     route: SpecializationRoutes,
   },
-  // {
-  //   path: '/appointments',
-  //   route: AppointmentRoutes,
-  // },
+  {
+    path: '/appointments',
+    route: AppointmentRoutes,
+  },
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
