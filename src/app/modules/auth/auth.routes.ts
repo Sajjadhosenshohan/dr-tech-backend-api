@@ -11,12 +11,12 @@ authRouter.post(
   AuthController.handleUserLogin,
 );
 
-// // Create Doctor
-// authRouter.post(
-//   '/register-doctor',
-//   requestValidation(DoctorValidation.createDoctorValidationSchema),
-//   DoctorControllers.createDoctor,
-// );
+// Create Doctor
+authRouter.post(
+  '/register-doctor',
+  requestValidation(DoctorValidation.createDoctorValidationSchema),
+  DoctorControllers.createDoctor,
+);
 // // Create Patient
 // authRouter.post(
 //   '/register-patient',
