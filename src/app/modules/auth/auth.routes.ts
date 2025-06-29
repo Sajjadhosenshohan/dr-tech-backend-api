@@ -1,5 +1,8 @@
 import { Router } from 'express';
 import { AuthController } from './auth.controllers';
+import requestValidation from '../../middlewares/requestValidation';
+import { DoctorValidation } from '../doctor/doctor.validation.schema';
+import { DoctorControllers } from '../doctor/doctor.controllers';
 
 // User Router
 const authRouter = Router();
@@ -15,7 +18,7 @@ authRouter.post(
 authRouter.post(
   '/register-doctor',
   requestValidation(DoctorValidation.createDoctorValidationSchema),
-  DoctorControllers.createDoctor,
+  DoctorControllers.registerDoctor,
 );
 // // Create Patient
 // authRouter.post(
