@@ -4,44 +4,45 @@ import { createToken } from '../../utils/auth.utils';
 import { User } from '../user/user.model';
 import { TAuth } from './auth.types';
 
-// Login User
-const userLogin = async (payload: TAuth) => {
-  // Check User
-  const isExistUser = await User.isExistUserByEmailOrNumber(payload.email);
-  if (!isExistUser) {
-    throw new AppError(400, 'User Not Found');
+// Authenticate and Login User
+const processUserLogin = async (credentials: TAuth) => {
+  const existingUser = await User.isExistUserByEmailOrNumber(credentials.email);
+
+  if (!existingUser) {
+    throw new AppError(400, 'User not found');
   }
 
-  // Match Password
-  if (
-    !(await User.isPasswordMatched(payload.password, isExistUser?.password))
-  ) {
-    throw new AppError(400, 'Invalid Credentials');
+  const isPasswordCorrect = await User.isPasswordMatched(
+    credentials.password,
+    existingUser?.password,
+  );
+
+  if (!isPasswordCorrect) {
+    throw new AppError(400, 'Incorrect email or password');
   }
 
-  // Create Payload
-  const userPayload = {
-    userEmail: isExistUser?.email,
-    role: isExistUser?.role,
-    userId: isExistUser?._id,
+  const jwtPayload = {
+    userEmail: existingUser?.email,
+    role: existingUser?.role,
+    userId: existingUser?._id,
   };
 
-  // Create Token
-  const token = createToken(
-    userPayload,
+  const accessToken = createToken(
+    jwtPayload,
     config.JWT_ACCESS_TOKEN_SECRET as string,
     config.JWT_ACCESS_EXPIRES_IN as string,
   );
 
-  return { accessToken: token };
+  return { accessToken };
 };
 
-// Get Login User Info From DB
-const getLoginUserInfoFromDB = async (email: string) => {
-  const user = await User.findOne({ email: email });
-  return user;
+// Get Logged User Details
+const retrieveLoggedUserData = async (email: string) => {
+  const loggedUser = await User.findOne({ email });
+  return loggedUser;
 };
-export const AuthServices = {
-  userLogin,
-  getLoginUserInfoFromDB,
+
+export const AuthLogic = {
+  processUserLogin,
+  retrieveLoggedUserData,
 };

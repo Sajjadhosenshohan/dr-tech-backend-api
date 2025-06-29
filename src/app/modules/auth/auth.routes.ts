@@ -1,6 +1,5 @@
 import { Router } from 'express';
-import requestValidation from '../../middlewares/requestValidation';
-import { AuthControllers } from './auth.controllers';
+import { AuthController } from './auth.controllers';
 
 // User Router
 const authRouter = Router();
@@ -9,7 +8,7 @@ const authRouter = Router();
 authRouter.post(
   '/login',
 
-  AuthControllers.userLogin,
+  AuthController.handleUserLogin,
 );
 
 // // Create Doctor
@@ -26,7 +25,7 @@ authRouter.post(
 // );
 
 // LoggedIn User
-authRouter.get('/me', AuthControllers.loggedInUser);
+authRouter.get('/me', AuthController.fetchLoggedInUser);
 
 // Export User Router
 export const AuthRoutes = authRouter;
