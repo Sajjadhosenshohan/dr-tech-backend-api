@@ -20,8 +20,18 @@ const appointmentSchema = new Schema<TAppointment>(
     },
     selectedDate: {
       type: String,
+      enum: [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+      ],
       required: true,
     },
+
     timeSlot: {
       type: String,
       required: true,

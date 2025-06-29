@@ -12,6 +12,7 @@ const availabilitySaveToDB = async (
 
   // Get Doctor Information
   const doctorInformation = await Doctor.findOne({ userId: doctorId });
+  console.log('Doctor Information:', doctorInformation);
   // Check Service
   const isExistService = await Service.findOne({
     _id: payload.service,

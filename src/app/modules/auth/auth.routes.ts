@@ -3,6 +3,8 @@ import { AuthController } from './auth.controllers';
 import requestValidation from '../../middlewares/requestValidation';
 import { DoctorValidation } from '../doctor/doctor.validation.schema';
 import { DoctorControllers } from '../doctor/doctor.controllers';
+import { PatientsValidationSchemas } from '../patient/patient.validation.schema';
+import { PatientControllers } from '../patient/patient.controllers';
 
 // User Router
 const authRouter = Router();
@@ -21,11 +23,11 @@ authRouter.post(
   DoctorControllers.registerDoctor,
 );
 // // Create Patient
-// authRouter.post(
-//   '/register-patient',
-//   requestValidation(PatientsValidationSchemas.createPatientValidationSchema),
-//   PatientControllers.createPatient,
-// );
+authRouter.post(
+  '/register-patient',
+  requestValidation(PatientsValidationSchemas.createPatientValidationSchema),
+  PatientControllers.createPatient,
+);
 
 // LoggedIn User
 authRouter.get('/me', AuthController.fetchLoggedInUser);

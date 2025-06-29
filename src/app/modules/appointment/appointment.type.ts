@@ -4,7 +4,7 @@ export type TAppointment = {
   doctorId: Types.ObjectId;
   patientId: Types.ObjectId;
   serviceId: Types.ObjectId;
-  selectedDate: string;
+  selectedDate: 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
   timeSlot: string;
   status: 'pending' | 'accepted' | 'cancelled' | 'completed';
 };

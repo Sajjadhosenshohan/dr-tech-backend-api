@@ -17,13 +17,14 @@ const bookAppointment = async (payload: TAppointment, patientId: string) => {
   if (!service) throw new AppError(404, 'Service not found for this doctor');
 
   // Validate Slot availability on that day
-  const dayOfWeek = new Date(selectedDate).toLocaleDateString('en-US', {
-    weekday: 'long',
-  });
+  // const dayOfWeek = new Date(selectedDate).toLocaleDateString('en-US', {
+  //   weekday: 'long',
+  // });
+  
   const availability = await Availability.findOne({
     doctor: doctorId,
     service: serviceId,
-    day: dayOfWeek,
+    day: selectedDate,
     slots: timeSlot,
   });
 

@@ -8,13 +8,21 @@ export const createAppointmentZodSchema = z.object({
     serviceId: z.string({
       required_error: 'Service ID is required',
     }),
-    selectedDate: z
-      .string({
+    selectedDate: z.enum(
+      [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+      ],
+      {
         required_error: 'Selected date is required',
-      })
-      .refine((val) => /^\d{4}-\d{2}-\d{2}$/.test(val), {
-        message: 'Date must be in YYYY-MM-DD format',
-      }),
+      },
+    ),
+
     timeSlot: z
       .string({
         required_error: 'Time slot is required',
